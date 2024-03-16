@@ -49,6 +49,7 @@ const Creator = () => {
             <li key={index} style={{ listStyleType: 'none', marginBottom: '10px' }}>
               {/* Display event data */}
               <p style={{ display: 'inline-block', marginRight: '20px' }}>Token ID: {event.args.tokenId}</p>
+              <p style={{ display: 'inline-block', marginRight: '20px' }}>ItemName: {event.args.name}</p>
               <p style={{ display: 'inline-block', marginRight: '20px' }}>
                 CID: 
                 <span title={event.args.CID} style={{ cursor: 'pointer' }}>
