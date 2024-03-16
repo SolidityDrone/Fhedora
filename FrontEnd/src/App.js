@@ -4,7 +4,7 @@ import { FhenixClient, getPermit, EncryptedType, EncryptionTypes, EncryptedUint3
 import { getAddress, BrowserProvider, ethers, utils } from 'ethers';
 import { Connect } from './Connect';
 import FileUpload from './zcrypt';
-import ProcessSealArray from './unseal';
+import ProcessSealArray from './ProcessSealArray.js';
 import contractAbi from './FHEcontractABI.json';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Creator from '../src/pages/creator.js'; // Import Creator component
@@ -13,7 +13,7 @@ import User from '../src/pages/user.js'; // Import User component
 export const provider = new BrowserProvider(window.ethereum);
 export const client = new FhenixClient({ provider });
 
-export const contractAddress = getAddress("0x038a57DECf031Fb8D0BaDda6FBec063eED9bd225");
+export const contractAddress = getAddress("0xC93AF8392e3F1c976Fb5c220C13e829f0501130D");
 let permit;
 permit = await getPermit(contractAddress, provider);
 client.storePermit(permit);
@@ -25,7 +25,7 @@ const signer = await provider.getSigner();
 export const contract = new ethers.Contract(contractAddress, contractAbi, signer);
 try {
   
-  ProcessSealArray()
+
 } catch {
   //
 }
