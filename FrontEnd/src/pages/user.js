@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { contract } from '../App.js';
 import ProcessSealArray from '../ProcessSealArray.js';
+import { Button, Col, Form, Row, Table, Container, InputGroup, FormControl } from 'react-bootstrap';
 const User = () => {
   const [userEvents, setUserEvents] = useState([]);
   const [searchAddress, setSearchAddress] = useState('');
@@ -76,62 +77,94 @@ const User = () => {
     }
   };
   return (
-    <div>
-      <h1>User Page</h1>
-      <p>This is a placeholder for the user page.</p>
+    <Container className='mt-3'>
+      
+          {/* Search bar */}
+        
+        
+      <Row className='mt-3'>
+        
+    
+        <Col>
+          <Row>
+            <Col>
+              <div>
+              <Form>
+              <Form.Group>
+  <InputGroup>
+    <FormControl
+      type="text"
+      value={searchAddress}
+      onChange={(e) => setSearchAddress(e.target.value)}
+      placeholder="Enter creator address"
+    />
+    <Button variant="primary" onClick={handleSearch}>Search</Button>
+  </InputGroup>
+</Form.Group>
 
-      {/* Search bar */}
-      <input
-        type="text"
-        value={searchAddress}
-        onChange={(e) => setSearchAddress(e.target.value)}
-        placeholder="Enter creator address"
-      />
-      <button onClick={handleSearch}>Search</button>
-
-      {/* Table for IdCreation events */}
-      <div>
-        <h2>IdCreation Events</h2>
-        <ul>
-          {searchResults.length > 0 ? (
-            searchResults.map((event, index) => (
-              <li key={index}>
-                {/* Display event data */}
-                <p>Token ID: {event.args.tokenId}</p>
-                <p>Creator: {event.args.creator}</p>
-                {/* Add any other details you want to display */}
-                <button onClick={() => handleMint(event.args.tokenId, event.args.etherPrice)}>Mint</button>
-              </li>
-            ))
-          ) : (
-            <p>No events found for the provided address.</p>
-          )}
-        </ul>
-      </div>
-
-      {/* Table for KeyAquired events */}
-      <div>
-        <h2>KeyAquired Events</h2>
-        <ul>
-          {userEvents.map((event, index) => (
-            <li key={index} style={{ listStyleType: 'none', marginBottom: '10px' }}>
-              {/* Display event data */}
-              <p style={{ display: 'inline-block', marginRight: '20px' }}>Token ID: {event.args.tokenId}</p>
-              <p style={{ display: 'inline-block', marginRight: '20px' }}>
-                CID: 
-                <span title={event.args.CID} style={{ cursor: 'pointer' }}>
-                  {`${event.args.CID.substring(0, 8)}...${event.args.CID.substring(event.args.CID.length - 4)}`}
-               
-                  <button onClick={() => goToIPFS(event.args.CID)} style={{ marginLeft: '5px' }}>Download</button>
-                </span>
-              </p>
-              {/* Additional button to process seal array */}
-              <button onClick={() => handleProcessSealArray(event.args.tokenId)}>Process Seal Array</button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+          </Form>
+                <Table striped bordered hover size="sm">
+                  <thead>
+                    <tr>
+                      <th>Creator</th>
+                      <th>Token ID</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {searchResults.length > 0 ? (
+                      searchResults.map((event, index) => (
+                        <tr key={index}>
+                          <td>{event.args.creator}</td>
+                          <td>{event.args.tokenId}</td>
+                          <td>
+                            <Button variant="primary" size="sm" onClick={() => handleMint(event.args.tokenId, event.args.etherPrice)}>Mint</Button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3">No events found for the provided address.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
+              </div>
+            </Col>
+            <Col>
+              <div>
+                <h2>Aquired Keys</h2>
+                <Table striped bordered hover size="sm">
+                  <thead>
+                    <tr>
+                      <th>Token ID</th>
+                      <th>CID</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {userEvents.map((event, index) => (
+                      <tr key={index}>
+                        <td>{event.args.tokenId}</td>
+                        <td>
+                          <span title={event.args.CID} style={{ cursor: 'pointer' }}>
+                            {`${event.args.CID.substring(0, 8)}...${event.args.CID.substring(event.args.CID.length - 4)}`}
+                            <Button variant="primary" size="sm" onClick={() => goToIPFS(event.args.CID)}>Download</Button>
+                          </span>
+                        </td>
+                        <td>
+                          <Button variant="primary" size="sm" onClick={() => handleProcessSealArray(event.args.tokenId)}>Process Seal Array</Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

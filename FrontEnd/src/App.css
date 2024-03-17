@@ -1,7 +1,9 @@
 .App {
   text-align: center;
 }
-
+body {
+  font-size: 10px; /* Adjust the font size as needed */
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -26,12 +28,83 @@
 .navbar-logo img {
   margin-right: 10px; /* Adjust margin as needed */
 }
+th{
+  font-size: 12px !important;
+}
+label{
+  font-size: 12px !important;
+}
+td{
+  font-size: 12px !important;
+}
+button{
+  font-size: 8px !important;
+  padding: 0px;
 
+  display: flex;
+  align-items: center;
+  
+}
+
+/* styles.css */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  height: 22px;
+  font-size: 10px;
+}
+
+/* Hide the default file input button */
+.form-group input[type="file"]::-webkit-file-upload-button {
+  display: none;
+}
+
+/* Style the custom file input button */
+.file-upload-button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.file-upload-button:hover {
+  background-color: #0056b3;
+}
+
+.file-input {
+  font-size: 12px; /* Reduce font size */
+}
+
+.file-label {
+  font-size: 12px; /* Reduce font size */
+}
+
+.file-button {
+  font-size: 12px; /* Reduce font size */
+}
 .navbar-links {
   list-style-type: none;
   margin: 0;
   padding: 0;
   display: flex;
+}
+
+.navbar{
+  background-color: #0056b3 !important;
 }
 
 .navbar-item {
@@ -46,10 +119,15 @@
 .navbar-link:hover {
   text-decoration: underline;
 }
-
+.navbar-container{
+  padding-left: 8px;
+  padding-right: 8px;
+}
 .navbar-right {
   display: flex;
   align-items: center;
+  justify-content: flex-end !; /* Align items to the end of the flex container */
+  margin-left: 70%;
 }
 .App-header {
   background-color: #282c34;

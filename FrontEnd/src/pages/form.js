@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FileUpload from '../zcrypt';
-
+import { Button } from 'react-bootstrap';
 const Form = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -53,30 +53,31 @@ const Form = () => {
 
   return (
     <div>
-      <h1>Upload Form</h1>
+      <h2>Upload Form</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-          <input type="text" value={name} onChange={handleNameChange} required />
-        </div>
-        <div>
-          <label>Description:</label>
-          <input type="text" value={description} onChange={handleDescriptionChange} required />
-        </div>
-        <div>
-          <label>Price:</label>
-          <input type="number" value={price} onChange={handlePriceChange} required />
-        </div>
-        <div>
-          <label>Max Supply:</label>
-          <input type="number" value={maxSupply} onChange={handleMaxSupplyChange} required />
-        </div>
-        <div>
-          <label>Upload File:</label>
-          <input type="file" onChange={handleFileChange} required />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
+      <div className="form-group">
+        <label htmlFor="name">Name:</label>
+        <input type="text" id="name" value={name} onChange={handleNameChange} required />
+      </div>
+      <div className="form-group">
+        <label htmlFor="description">Description:</label>
+        <input type="text" id="description" value={description} onChange={handleDescriptionChange} required />
+      </div>
+      <div className="form-group">
+        <label htmlFor="price">Price:</label>
+        <input type="number" id="price" value={price} onChange={handlePriceChange} required />
+      </div>
+      <div className="form-group">
+        <label htmlFor="maxSupply">Max Supply:</label>
+        <input type="number" id="maxSupply" value={maxSupply} onChange={handleMaxSupplyChange} required />
+      </div>
+      <div className="form-group">
+        <label htmlFor="file">Upload File:</label>
+        <input type="file" id="file" className="file-input" onChange={handleFileChange} required />
+        <label htmlFor="file" className="file-upload-button">Choose File</label>
+      </div>
+      <button type="submit" className="btn btn-primary">Submit</button>
+    </form>
       {file && (
         <FileUpload
           file={file}

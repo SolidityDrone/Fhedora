@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ethers, formatUnits} from 'ethers';
+import { ethers, formatUnits } from 'ethers';
+import { Button, Col, Container, ListGroup, Row, Table } from 'react-bootstrap';
 import Form from './form';
 import { contract } from '../App.js';
 
@@ -12,20 +13,20 @@ const Creator = () => {
         // Get current user's account
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const currentUserAccount = accounts[0];
-  
+
         // Fetch all events emitted by the contract
         const allEvents = await contract.queryFilter('IdCreation');
-        
+
         // Filter events based on the current user's account
         const userEvents = allEvents.filter(event => event.args.creator.toLowerCase() === currentUserAccount.toLowerCase());
-        
+
         // Set userEvents state
         setUserEvents(userEvents);
       } catch (error) {
         console.error('Error fetching user events:', error);
       }
     };
-  
+
     fetchUserEvents();
   }, []); // Fetch events once on component mount
 
@@ -36,35 +37,51 @@ const Creator = () => {
   const goToIPFS = (cid) => {
     window.open(`https://ipfs.io/ipfs/${cid}`, '_blank');
   };
-  
+
   return (
-    <div>
-      <h1>Creator Page</h1>
-      <p>This is a placeholder for the Creator page.</p>
-      <Form />
-      <div>
-        <h2>User Events</h2>
-        <ul>
-          {userEvents.map((event, index) => (
-            <li key={index} style={{ listStyleType: 'none', marginBottom: '10px' }}>
-              {/* Display event data */}
-              <p style={{ display: 'inline-block', marginRight: '20px' }}>Token ID: {event.args.tokenId}</p>
-              <p style={{ display: 'inline-block', marginRight: '20px' }}>ItemName: {event.args.name}</p>
-              <p style={{ display: 'inline-block', marginRight: '20px' }}>
-                CID: 
-                <span title={event.args.CID} style={{ cursor: 'pointer' }}>
-                  {`${event.args.CID.substring(0, 8)}...${event.args.CID.substring(event.args.CID.length - 4)}`}
-                  <button onClick={() => copyToClipboard(event.args.CID)} style={{ marginLeft: '5px' }}>Copy</button>
-                  <button onClick={() => goToIPFS(event.args.CID)} style={{ marginLeft: '5px' }}>Download</button>
-                </span>
-              </p>
-              <p style={{ display: 'inline-block', marginRight: '20px' }}>Price: {formatUnits(event.args.etherPrice, 'ether')} ethers</p>
-              <p style={{ display: 'inline-block' }}>Max Supply: {event.args.maxSupply}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <Container>
+   
+      <Row className='mt-3'>
+        <Col md={3}>
+          <Form />
+        </Col>
+        <Col md={8}>
+          <div>
+            <h2>Uploaded Contents</h2>
+            <Table striped bordered hover size="sm">
+              <thead>
+                <tr>
+                
+                  <th>Item Name</th>
+                  <th>CID</th>
+                  <th>Price (ETH)</th>
+                  <th>Max Supply</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {userEvents.map((event, index) => (
+                  <tr key={index}>
+                  
+                    <td>{event.args.name}</td>
+                    <td>
+                      <span title={event.args.CID} style={{ cursor: 'pointer' }}>
+                        {`${event.args.CID.substring(0, 8)}...${event.args.CID.substring(event.args.CID.length - 4)}`}
+                       
+                      
+                      </span>
+                    </td>
+                    <td>{formatUnits(event.args.etherPrice, 'ether')}</td>
+                    <td>{event.args.maxSupply}</td>
+                    <td>  <Button variant="primary" size="sm" onClick={() => goToIPFS(event.args.CID)} style={{ marginLeft: '5px' }}>Download</Button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
